@@ -1304,6 +1304,8 @@ class Fonctions
      */
     public static function userModule($session)
     {
+        $config = new \App\Libraries\Configuration();
+
         $return = '<h1>' . _('admin_onglet_gestion_user') . '</h1>';
 
         /*********************/
@@ -1418,7 +1420,7 @@ class Fonctions
 
             $childTable .= '<td>' . $admin_modif_user . '</td>';
             $childTable .= '<td>' . $admin_suppr_user . '</td>';
-            if(($_SESSION['config']['admin_change_passwd']) && ($_SESSION['config']['how_to_connect_user'] == "dbconges")) {
+            if(($_SESSION['config']['admin_change_passwd']) && ($config->getHowToConnectUser() == "dbconges")) {
                 $childTable .= '<td>' . $admin_chg_pwd_user . '</td>';
             }
             $childTable .= '</tr>';
@@ -3028,6 +3030,8 @@ class Fonctions
     // affichage du formulaire de saisie d'un nouveau user
     public static function affiche_formulaire_ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $onglet)
     {
+        $config = new \App\Libraries\Configuration();
+        
         $PHP_SELF = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_URL);
         $session=session_id();
         $return = '';
@@ -3078,7 +3082,7 @@ class Fonctions
         if ( !$_SESSION['config']['export_users_from_ldap'] ) {
             $childTable .= '<th>' . _('admin_users_mail') . '</th>';
         }
-        if ($_SESSION['config']['how_to_connect_user'] == "dbconges") {
+        if ($config->getHowToConnectUser() == "dbconges") {
             $childTable .= '<th>' . _('admin_new_users_password') . '</th>';
             $childTable .= '<th>' . _('admin_new_users_password') . '</th>';
         }
@@ -3166,7 +3170,7 @@ class Fonctions
         if ( !$_SESSION['config']['export_users_from_ldap'] ) {
             $childTable .= '<td>' . $text_email . '</td>';
         }
-        if ($_SESSION['config']['how_to_connect_user'] == "dbconges") {
+        if ($config->getHowToConnectUser() == "dbconges") {
             $childTable .= '<td>' . $text_password1 . '</td>';
             $childTable .= '<td>' . $text_password2 . '</td>';
         }
@@ -3383,7 +3387,9 @@ class Fonctions
     }
 
     public static function FormAddUserpasswdOk($password1,$password2) {
-        if($_SESSION['config']['how_to_connect_user']=='dbconges')
+        $config = new \App\Libraries\Configuration();
+
+        if($config->getHowToConnectUser() == 'dbconges')
         {
             return !(strlen($password1)==0 || strlen($password2)==0 || strcmp($password1, $password2)!=0);
         } else {
@@ -3393,6 +3399,8 @@ class Fonctions
 
     public static function ajout_user(&$tab_new_user, &$tab_new_jours_an, &$tab_new_solde, $checkbox_user_groups)
     {
+        $config = new \App\Libraries\Configuration();
+
         $PHP_SELF = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_URL);
         $session  = session_id();
         $return   = '';
@@ -3411,7 +3419,7 @@ class Fonctions
 
             /*****************************/
             /* INSERT dans conges_users  */
-            if ($_SESSION['config']['how_to_connect_user'] == "dbconges") {
+            if ($config->getHowToConnectUser() == "dbconges") {
                 $motdepasse = md5($tab_new_user['password1']);
             } else {
                 $motdepasse = "none";
@@ -3509,6 +3517,8 @@ class Fonctions
      */
     public static function ajoutUtilisateurModule($onglet)
     {
+        $config = new \App\Libraries\Configuration();
+
         $saisie_user = getpost_variable('saisie_user');
         $return      = '';
 
@@ -3556,7 +3566,7 @@ class Fonctions
                 $tab_new_user[$login]['is_hr']      = htmlentities(getpost_variable('new_is_hr'), ENT_QUOTES | ENT_HTML401);
                 $tab_new_user[$login]['see_all']    = getpost_variable('new_see_all');
 
-                if ($_SESSION['config']['how_to_connect_user'] == "dbconges") {
+                if ($config->getHowToConnectUser() == "dbconges") {
                     $tab_new_user[$login]['password1'] = getpost_variable('new_password1');
                     $tab_new_user[$login]['password2'] = getpost_variable('new_password2');
                 }
@@ -3578,7 +3588,7 @@ class Fonctions
             $tab_new_user[0]['is_hr']      = htmlentities(getpost_variable('new_is_hr'), ENT_QUOTES | ENT_HTML401);
             $tab_new_user[0]['see_all']    = getpost_variable('new_see_all');
 
-            if ($_SESSION['config']['how_to_connect_user'] == "dbconges") {
+            if ($config->getHowToConnectUser() == "dbconges") {
                 $tab_new_user[0]['password1']    = getpost_variable('new_password1');
                 $tab_new_user[0]['password2']    = getpost_variable('new_password2');
             }
