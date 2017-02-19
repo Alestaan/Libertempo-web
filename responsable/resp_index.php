@@ -11,6 +11,8 @@ include_once INCLUDE_PATH .'fonction.php';
 include_once INCLUDE_PATH .'session.php';
 include_once ROOT_PATH .'fonctions_calcul.php';
 
+$config = new \App\Libraries\Configuration();
+
 // verif des droits du user à afficher la page
 verif_droits_user($session, "is_resp");
 
@@ -34,7 +36,7 @@ verif_droits_user($session, "is_resp");
     $DemandesRep = new \App\ProtoControllers\Responsable\Traitement\Repos;
     $DemandesConges = new \App\ProtoControllers\Responsable\Traitement\Conge;
 
-    if( $_SESSION['config']['user_saisie_demande'] ) {
+    if($config->canUserSaisieDemande()) {
 
         $nbbadgeConges='';
         $nbdemandes = $DemandesConges->getNbDemandesATraiter($_SESSION['userlogin']);
