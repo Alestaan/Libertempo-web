@@ -1006,6 +1006,7 @@ class Fonctions
      */
     public static function pagePrincipaleModule($tab_type_cong, $tab_type_conges_exceptionnels, $session)
     {
+        $config = new \App\Libraries\Configuration();
         $return = '';
         /***********************************/
         // AFFICHAGE ETAT CONGES TOUS USERS
@@ -1061,7 +1062,7 @@ class Fonctions
         } else {
             $i = true;
             foreach($tab_all_users as $current_login => $tab_current_user) {
-                if($tab_current_user['is_active'] == "Y" || $_SESSION['config']['print_disable_users'] == 'TRUE') {
+                if($tab_current_user['is_active'] == "Y" || $config->isUtilisateurDesactiveVisible() == 'TRUE') {
                     //tableau de tableaux les nb et soldes de conges d'un user (indicé par id de conges)
                     $tab_conges=$tab_current_user['conges'];
                     $text_affich_user="<a class=\"action show\" href=\"resp_index.php?session=$session&onglet=traite_user&user_login=$current_login\" title=\""._('resp_etat_users_afficher')."\"><i class=\"fa fa-eye\"></i></a>" ;
