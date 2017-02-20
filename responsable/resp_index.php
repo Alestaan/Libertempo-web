@@ -62,7 +62,7 @@ verif_droits_user($session, "is_resp");
     }
     $onglets['traitement_heures_repos'] = _('resp_menu_button_traite_repos').$nbbadgeRep;
 
-    if( $_SESSION['config']['resp_ajoute_conges'] )
+    if( $config->canResponsableAjouteConges() )
         $onglets['ajout_conges'] = _('resp_ajout_conges_titre');
 
     if( $_SESSION['config']['resp_association_planning'] )
